@@ -1,0 +1,7 @@
+domain: cloudfirst.dev
+layout: go.kubebuilder.io/v2
+projectName: router-f5-operator
+repo: github.com/mathianasj/router-f5-operator
+version: 3-alpha
+plugins:
+  go.sdk.operatorframework.io/v2-alpha: {}
