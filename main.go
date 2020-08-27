@@ -31,6 +31,7 @@ import (
 
 	"github.com/mathianasj/router-f5-operator/controllers"
 	routev1 "github.com/openshift/api/route/v1"
+	"github.com/operator-framework/operator-sdk/pkg/k8sutil"
 )
 
 var (
@@ -55,13 +56,20 @@ func main() {
 
 	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
 
+	namespace, err := k8sutil.GetWatchNamespace()
+	if err != nil {
+		namespace = ""
+	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
 		MetricsBindAddress: metricsAddr,
 		Port:               9443,
 		LeaderElection:     enableLeaderElection,
 		LeaderElectionID:   "0150bc9f.cloudfirst.dev",
+		Namespace:          namespace,
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)

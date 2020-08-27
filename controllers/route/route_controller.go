@@ -21,10 +21,11 @@ import (
 )
 
 const controllerName = "route_controller"
-const finalizerName = "route/cloudfirst.dev"
+const finalizerName = "f5/cloudfirst.dev"
 
 var log = logf.Log.WithName(controllerName)
 
+// Add the controller to the manager
 func Add(mgr manager.Manager) error {
 	return add(mgr, newReconciler(mgr))
 }
@@ -118,6 +119,7 @@ type ReconcileRoute struct {
 	outils.ReconcilerBase
 }
 
+// Reconcile the route
 func (r *ReconcileRoute) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	reqLogger := log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
 	reqLogger.Info("Reconciling Route")
@@ -150,12 +152,11 @@ func (r *ReconcileRoute) Reconcile(request reconcile.Request) (reconcile.Result,
 		r.addF5Entry(instance)
 	}
 
-	if request.Name == "test" {
-		err = r.GetClient().Update(context.TODO(), instance)
-		if err != nil {
-			log.Error(err, "unable to update instance", "instance", instance)
-			return r.ManageError(instance, err)
-		}
+	// Update route with any changes that were made
+	err = r.GetClient().Update(context.TODO(), instance)
+	if err != nil {
+		log.Error(err, "unable to update instance", "instance", instance)
+		return r.ManageError(instance, err)
 	}
 
 	// if we are here we know it's because a route was create/modified or its referenced secret was created/modified

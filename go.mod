@@ -8,6 +8,7 @@ require (
 	github.com/onsi/gomega v1.10.1
 	github.com/openshift/api v3.9.0+incompatible
 	github.com/openshift/cluster-api v0.0.0-20191129101638-b09907ac6668
+	github.com/operator-framework/operator-sdk v0.18.1
 	github.com/prometheus/common v0.9.1
 	github.com/redhat-cop/cert-utils-operator v0.2.1
 	github.com/redhat-cop/operator-utils v0.3.4
